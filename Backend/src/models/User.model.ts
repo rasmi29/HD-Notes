@@ -50,4 +50,22 @@ const userSchema: Schema<IUserDocument> = new Schema({
 userSchema.index({ email: 1 });
 userSchema.index({ createdAt: -1 });
 
-export default userSchema
+userSchema.methods.getPublicProfile = function() {
+  return {
+    id: this._id,
+    name: this.name,
+    email: this.email,
+    dateOfBirth: this.dateOfBirth,
+    isEmailVerified: this.isEmailVerified,
+    createdAt: this.createdAt
+  };
+};
+
+ //find user by email
+ userSchema.statics.findByEmail = function(email: string) {
+  return this.findOne({ email: email.toLowerCase() });
+};
+
+export const User = mongoose.model<IUserDocument>('User', userSchema);
+
+export default User
