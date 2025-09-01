@@ -1,5 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import type { IOTPStore } from '../types/auth.js';
+import mongoose, { Schema, Document } from "mongoose";
+import type { IOTPStore } from "../types/auth.js";
 
 export interface IOTPDocument extends IOTPStore, Document {}
 
@@ -8,29 +8,32 @@ const OTPSchema: Schema<IOTPDocument> = new Schema({
     type: String,
     required: true,
     lowercase: true,
-    trim: true
+    trim: true,
   },
   otp: {
     type: String,
     required: true,
-    length: 6
+    minlength: 6,
+    maxlength: 6,
   },
   purpose: {
     type: String,
     required: true,
-    enum: ['signup', 'login']
+    enum: ["signup", "login"],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
   expiresAt: {
     type: Date,
     default: Date.now,
-    expires: 300 // 5 minutes expiration
-  }
-},{
-    timestamps:true
+    expires: 300, // 5 minutes expiration
+  },
 });
 
 // index for automatic cleanup of expired OTPs
 OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 OTPSchema.index({ email: 1, purpose: 1 });
 
-export const OTPStore = mongoose.model<IOTPDocument>('OTPStore', OTPSchema);
+export const OTPStore = mongoose.model<IOTPDocument>("OTPStore", OTPSchema);
