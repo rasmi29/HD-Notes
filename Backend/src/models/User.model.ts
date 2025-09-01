@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { IUser } from "../types/auth.js";
+import type { IUser } from "../types/auth.js";
 
 export interface IUserDocument extends IUser, Document {
   _id: string;

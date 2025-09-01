@@ -4,7 +4,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon src/server.ts",
+    "start":"node dist/server.js",
+    "build":"tsc"
   },
   "keywords": [],
   "author": "Rasmiranjan Sahoo",
